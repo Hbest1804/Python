@@ -70,9 +70,12 @@ def search(request):
         results = []
     return render(request, 'myan/search.html', {'results': results})
 
-def playlist_detail(request, playlist_id):  # Chú ý sử dụng playlist_id
-    playlist = get_object_or_404(Playlist, pk=playlist_id)
-    songs = playlist.song_set.all()  # Lấy tất cả bài hát thuộc playlist này
+from django.shortcuts import render, get_object_or_404
+from .models import Playlist
+
+def playlist_detail(request, playlist_id):
+    playlist = get_object_or_404(Playlist, id=playlist_id)
+    songs = playlist.songs.all()  # Sử dụng related_name đã khai báo
     return render(request, 'myan/playlist_detail.html', {'playlist': playlist, 'songs': songs})
 
 def profile_view(request):

@@ -1,22 +1,21 @@
 from django.contrib import admin
-from .models import Song, Playlist
+from .models import Playlist, Song, Album
 
-# Tạo SongInline để hiển thị các bài hát trong Playlist
-class SongInline(admin.TabularInline):
-    model = Song
-    extra = 1  # Số dòng mặc định để thêm bài hát mới vào playlist
-
+@admin.register(Playlist)
 class PlaylistAdmin(admin.ModelAdmin):
-    inlines = [SongInline]
-    list_display = ('name', 'cover_image', 'get_song_count')  # Hiển thị tên playlist, ảnh bìa và số bài hát
-    search_fields = ['name']  # Tìm kiếm playlist theo tên
+    list_display = ('name', 'created_at')
+    search_fields = ('name',)
 
-    def get_song_count(self, obj):
-        return obj.song_set.count()  # Đếm số bài hát trong playlist (sử dụng song_set cho ForeignKey)
-    get_song_count.short_description = 'Number of Songs'  # Đổi tên cột
 
-# Đăng ký các mô hình và các tùy chỉnh admin
-admin.site.register(Song)
-admin.site.register(Playlist, PlaylistAdmin)
+@admin.register(Song)
+class SongAdmin(admin.ModelAdmin):
+    list_display = ('name', 'artist', 'playlist', 'plays')
+    search_fields = ('name', 'artist')
+    list_filter = ('playlist',)
 
+
+@admin.register(Album)
+class AlbumAdmin(admin.ModelAdmin):
+    list_display = ('name', 'release_date')
+    search_fields = ('name',)
 

@@ -23,18 +23,22 @@
 
 
 <section class="popular-songs">
-    <h2><i class="fas fa-music"></i>  Songs</h2>
+    <h2><i class="fas fa-music"></i> Songs</h2>
     <ul class="song-list">
-        {% for song in Songs %}
+        {% for song in songs %}
             <li class="song-item">
-                <img src="{{ song.album.cover_image.url|default:'/static/images/default-song.png' }}" alt="{{ song.name }}" width="50">
+                <!-- Trình phát nhạc -->
+                <audio controls>
+                    <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
                 <div class="song-info">
-                    <h3>{{ song.name }}</h3>
-                    <p>{{ song.artist }}</p>
+                    <p class="song-name"><strong>{{ song.name }}</strong></p>
+                    <p class="song-artist">{{ song.artist }}</p>
                 </div>
                 <div class="song-controls">
-                    <button class="play-btn"><i class="fas fa-play"></i></button>
-                    <button class="add-to-playlist-btn"><i class="fas fa-plus"></i></button>
+                    <button class="play-btn"><i class="fas fa-play"></i> Play</button>
+                    <button class="add-to-playlist-btn"><i class="fas fa-plus"></i> Add to Playlist</button>
                 </div>
             </li>
         {% empty %}
@@ -42,4 +46,6 @@
         {% endfor %}
     </ul>
 </section>
+
+  
 {% endblock %}
