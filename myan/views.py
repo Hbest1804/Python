@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Playlist, Song
 from django.db.models import Q
+from django.shortcuts import render, get_object_or_404
+from .models import Playlist
 
 def home(request):
     # Lấy danh sách playlist (giới hạn 6 mục)
@@ -67,3 +69,13 @@ def search(request):
     else:
         results = []
     return render(request, 'myan/search.html', {'results': results})
+
+def playlist_detail(request, playlist_id):  # Chú ý sử dụng playlist_id
+    playlist = get_object_or_404(Playlist, pk=playlist_id)
+    songs = playlist.song_set.all()  # Lấy tất cả bài hát thuộc playlist này
+    return render(request, 'myan/playlist_detail.html', {'playlist': playlist, 'songs': songs})
+
+def profile_view(request):
+    # Giả sử người dùng đã đăng nhập, lấy thông tin người dùng từ request.user
+    user = request.user
+    return render(request, 'myan/profile.html', {'user': user})

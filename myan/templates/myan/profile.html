@@ -1,0 +1,15 @@
+{% extends 'myan/base.html' %}
+
+{% block content %}
+    <h1>Chào mừng, {{ user.username }}!</h1>
+
+    <h2>Thông tin cá nhân:</h2>
+    <p>Tên người dùng: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Ngày tham gia: {{ user.date_joined }}</p>
+
+    <!-- Thêm các thông tin khác nếu cần -->
+
+    <a href="{% url 'logout' %}">Đăng xuất</a>
+{% endblock %}
+
